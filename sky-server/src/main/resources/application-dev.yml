@@ -4,13 +4,13 @@ sky:
     host: localhost
     port: 3306
     database: sky_take_out
-    username: root
+    username: ${key-id}
     password: ${key-id}
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
     access-key-id: ${key-id}
     access-key-secret:  ${key-id}
-    bucket-name: java-ai-liuzhanhe
+    bucket-name: ${key-id}
   redis:
     host: localhost
     port: 6379
