@@ -1,0 +1,34 @@
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: sky_take_out
+    username: root
+    password: ${key-id}
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: ${key-id}
+    access-key-secret:  ${key-id}
+    bucket-name: java-ai-liuzhanhe
+  redis:
+    host: localhost
+    port: 6379
+    password: ${key-id}
+    database: 0
+  wechat:
+    appid:  ${key-id}
+    secret:  ${key-id}
+#    微信支付商户号	支付时
+    mchid : 1561414331
+#    商户证书序列号	支付时
+    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
+#    商户私钥文件（apiclient_key.pem）	支付时
+    privateKeyFilePath: D:\pay\apiclient_key.pem
+#    APIv3 密钥	支付时
+    apiV3Key: CZBK51236435wxpay435434323FFDuv3
+#    微信支付平台证书	支付时
+    weChatPayCertFilePath: D:\pay\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem
+#      支付/退款结果回调地址（cpolar 内网穿透）	支付回调时
+    notifyUrl: https://58869fb.r2.cpolar.top/notify/paySuccess
+    refundNotifyUrl: https://58869fb.r2.cpolar.top/notify/refundSuccess
