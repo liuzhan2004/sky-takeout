@@ -1,0 +1,110 @@
+<!--
+  订单详情页（pages/order/detail）
+  结构：状态区 → 订单信息 → 商品费用（明细 + 费用明细）→ 其他信息
+-->
+<view class="detail-page">
+  <!-- 加载中 -->
+  <view wx:if="{{pageLoading}}" class="load-state">
+    <view class="load-state-title">加载中...</view>
+  </view>
+
+  <!-- 加载失败 -->
+  <view wx:elif="{{loadError}}" class="load-state">
+    <view class="load-state-title">订单详情加载失败</view>
+    <view class="load-state-tip">请检查网络后重试</view>
+    <view class="retry-btn" bindtap="onRetry">重新加载</view>
+  </view>
+
+  <block wx:elif="{{order}}">
+    <!-- 状态区 -->
+    <view class="status-area">
+      <view class="status-title">{{order.statusText}}</view>
+      <view class="status-desc">{{order.statusDesc}}</view>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="card">
+      <view class="card-title">订单信息</view>
+      <view class="info-row">
+        <text class="info-label">配送地址</text>
+        <view class="info-value">
+          <view class="addr-line">{{order.consignee}} {{order.phone}}</view>
+          <view class="addr-line addr-detail">{{order.address}}</view>
+        </view>
+      </view>
+      <view class="info-row">
+        <text class="info-label">期望送达</text>
+        <text class="info-value">{{order.estimatedText || '尽快送达'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">餐具份数</text>
+        <text class="info-value">{{order.tablewareText}}</text>
+      </view>
+      <view class="info-row" wx:if="{{order.remark}}">
+        <text class="info-label">订单备注</text>
+        <text class="info-value">{{order.remark}}</text>
+      </view>
+    </view>
+
+    <!-- 商品费用 -->
+    <view class="card">
+      <view class="card-title">商品费用</view>
+
+      <!-- 菜品明细 -->
+      <view class="dish-item" wx:for="{{order.details}}" wx:key="index">
+        <image class="dish-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="dish-info">
+          <view class="dish-name">{{item.name}}</view>
+          <view wx:if="{{item.flavor}}" class="dish-flavor">{{item.flavor}}</view>
+        </view>
+        <view class="dish-right">
+          <text class="dish-number">x{{item.number}}</text>
+          <text class="dish-subtotal">¥{{item.subtotalText}}</text>
+        </view>
+      </view>
+
+      <!-- 费用明细 -->
+      <view class="fee-block">
+        <view class="fee-row">
+          <text class="fee-label">商品合计</text>
+          <text class="fee-value">¥{{order.goodsTotalText}}</text>
+        </view>
+        <view class="fee-row">
+          <text class="fee-label">配送费</text>
+          <text class="fee-value">¥{{order.packAmountText}}</text>
+        </view>
+        <view class="fee-row fee-row-total">
+          <text class="fee-label">实付</text>
+          <view class="fee-amount">
+            <text class="fee-symbol">¥</text>
+            <text class="fee-value-total">{{order.amountText}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 其他信息 -->
+    <view class="card">
+      <view class="info-row">
+        <text class="info-label">订单编号</text>
+        <view class="info-value info-value-copy">
+          <text class="copy-number">{{order.orderNumber}}</text>
+          <text class="copy-btn" bindtap="onCopyOrderNumber">复制</text>
+        </view>
+      </view>
+      <view class="info-row">
+        <text class="info-label">下单时间</text>
+        <text class="info-value">{{order.orderTimeText}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">支付方式</text>
+        <text class="info-value">{{order.payMethodText}}</text>
+      </view>
+    </view>
+
+    <!-- 底部操作 -->
+    <view class="footer-bar">
+      <view class="footer-btn" bindtap="onGoMenu">再来一单</view>
+    </view>
+  </block>
+</view>

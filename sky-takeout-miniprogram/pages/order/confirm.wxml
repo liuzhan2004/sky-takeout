@@ -1,0 +1,131 @@
+<!--
+  订单确认页（pages/order/confirm）
+  收货地址 + 商品明细 + 金额汇总 + 提交支付。
+-->
+<view class="confirm-page">
+  <scroll-view class="confirm-body" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <!-- 收货地址 -->
+    <view class="section-card">
+      <view class="section-title">收货地址</view>
+
+      <!-- 已有地址 -->
+      <view wx:if="{{address}}" class="address-box">
+        <view class="address-line1">
+          <text class="address-name">{{address.consignee}}</text>
+          <text class="address-phone">{{address.phone}}</text>
+        </view>
+        <view class="address-detail">{{address.detail}}</view>
+      </view>
+
+      <!-- 无地址：内联新增表单 -->
+      <view wx:else class="address-form">
+        <view class="address-empty-tip">还没有收货地址，先添加一个吧</view>
+        <input
+          class="form-input"
+          placeholder="收货人姓名"
+          placeholder-class="form-placeholder"
+          value="{{addressForm.consignee}}"
+          bindinput="onConsigneeInput"
+        />
+        <input
+          class="form-input"
+          type="number"
+          maxlength="11"
+          placeholder="手机号"
+          placeholder-class="form-placeholder"
+          value="{{addressForm.phone}}"
+          bindinput="onPhoneInput"
+        />
+        <input
+          class="form-input"
+          placeholder="详细地址（如：xx小区x栋xxx）"
+          placeholder-class="form-placeholder"
+          value="{{addressForm.detail}}"
+          bindinput="onDetailInput"
+        />
+        <view class="address-save-btn {{_savingAddress ? 'btn-disabled' : ''}}" bindtap="onSaveAddress">保存地址</view>
+      </view>
+    </view>
+
+    <!-- 商品明细 -->
+    <view class="section-card">
+      <view class="section-title">商品清单（{{cartCount}} 件）</view>
+      <view wx:for="{{cartList}}" wx:key="index" class="order-item">
+        <image
+          wx:if="{{item.image}}"
+          class="item-img"
+          src="{{item.image}}"
+          mode="aspectFill"
+          lazy-load="{{true}}"
+        />
+        <view wx:else class="item-img item-img-empty"></view>
+
+        <view class="item-info">
+          <view class="item-name">{{item.name}}</view>
+          <view wx:if="{{item.dishFlavor}}" class="item-flavor">{{item.dishFlavor}}</view>
+        </view>
+
+        <view class="item-right">
+          <view class="item-number">x{{item.number}}</view>
+          <view class="item-subtotal">¥{{item.subtotalText}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 备注 -->
+    <view class="section-card">
+      <view class="section-title">订单备注</view>
+      <input
+        class="form-input remark-input"
+        placeholder="选填，给商家留言（口味偏好等）"
+        placeholder-class="form-placeholder"
+        value="{{remark}}"
+        bindinput="onRemarkInput"
+      />
+    </view>
+
+    <!-- 金额汇总 -->
+    <view class="section-card">
+      <view class="amount-row">
+        <text class="amount-label">商品合计</text>
+        <text class="amount-value">¥{{goodsAmount}}</text>
+      </view>
+      <view class="amount-row">
+        <text class="amount-label">配送费</text>
+        <text class="amount-value">¥{{packAmount}}.00</text>
+      </view>
+      <view class="amount-row amount-row-total">
+        <text class="amount-label">应付合计</text>
+        <text class="amount-value amount-value-total">¥{{totalAmount}}</text>
+      </view>
+    </view>
+
+    <view class="list-bottom-space"></view>
+  </scroll-view>
+
+  <!-- 底部提交栏 -->
+  <view class="settle-bar">
+    <view class="settle-total">
+      <text class="settle-total-label">合计</text>
+      <text class="settle-total-symbol">¥</text>
+      <text class="settle-total-value">{{totalAmount}}</text>
+    </view>
+    <view
+      class="settle-btn {{submitting ? 'btn-disabled' : ''}}"
+      bindtap="onSubmitOrder"
+    >{{submitting ? '提交中...' : '提交并支付'}}</view>
+  </view>
+
+  <!-- 首屏加载遮罩 -->
+  <view wx:if="{{pageLoading}}" class="page-loading">
+    <view class="page-loading-icon"></view>
+    <view class="page-loading-text">加载中...</view>
+  </view>
+
+  <!-- 加载失败 -->
+  <view wx:if="{{loadError && !pageLoading}}" class="load-state">
+    <view class="load-state-title">页面加载失败</view>
+    <view class="load-state-tip">请检查网络后重试</view>
+    <view class="retry-btn" bindtap="onRetry">重新加载</view>
+  </view>
+</view>

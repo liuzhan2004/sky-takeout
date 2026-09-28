@@ -1,0 +1,92 @@
+<!--
+  购物车页（pages/cart/cart）
+  商品列表 + 底部合计栏。
+-->
+<view class="cart-page">
+  <!-- 顶部操作条 -->
+  <view class="cart-header">
+    <view class="cart-header-title">已选 {{cartCount}} 件</view>
+    <view wx:if="{{cartList.length > 0}}" class="cart-clean-btn" bindtap="onClean">清空</view>
+  </view>
+
+  <!-- 购物车列表 -->
+  <scroll-view class="cart-body" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <block wx:if="{{!pageLoading && !loadError}}">
+      <!-- 有商品 -->
+      <view wx:if="{{cartList.length > 0}}" class="cart-list">
+        <view wx:for="{{cartList}}" wx:key="index" class="cart-item">
+          <view class="item-img-wrap">
+            <image
+              wx:if="{{item.image}}"
+              class="item-img"
+              src="{{item.image}}"
+              mode="aspectFill"
+              lazy-load="{{true}}"
+            />
+            <view wx:else class="item-img item-img-empty"></view>
+          </view>
+
+          <view class="item-info">
+            <view class="item-name">{{item.name}}</view>
+            <view wx:if="{{item.dishFlavor}}" class="item-flavor">{{item.dishFlavor}}</view>
+            <view class="item-price">¥{{item.unitPriceText}}</view>
+          </view>
+
+          <view class="item-right">
+            <view class="item-stepper">
+              <view
+                class="stepper-btn stepper-minus"
+                data-index="{{index}}"
+                catchtap="onSub"
+              >−</view>
+              <view class="stepper-num">{{item.number}}</view>
+              <view
+                class="stepper-btn stepper-plus"
+                data-index="{{index}}"
+                catchtap="onAdd"
+              >＋</view>
+            </view>
+            <view class="item-subtotal">¥{{item.subtotalText}}</view>
+          </view>
+        </view>
+
+        <!-- 底部留白，避免被合计栏遮挡 -->
+        <view class="list-bottom-space"></view>
+      </view>
+
+      <!-- 空购物车 -->
+      <view wx:else class="cart-empty">
+        <view class="cart-empty-icon">🛒</view>
+        <view class="cart-empty-text">购物车还是空的</view>
+        <view class="cart-empty-tip">去菜单里选点好吃的吧</view>
+        <view class="cart-empty-btn" bindtap="onGoMenu">去点餐</view>
+      </view>
+    </block>
+
+    <!-- 加载失败 -->
+    <view wx:if="{{loadError}}" class="load-state">
+      <view class="load-state-title">购物车加载失败</view>
+      <view class="load-state-tip">请检查网络后重试</view>
+      <view class="retry-btn" bindtap="onRetry">重新加载</view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部合计栏 -->
+  <view wx:if="{{cartList.length > 0}}" class="settle-bar">
+    <view class="settle-total">
+      <view class="settle-total-main">
+        <text class="settle-total-label">合计</text>
+        <text class="settle-total-symbol">¥</text>
+        <text class="settle-total-value">{{totalPrice}}</text>
+      </view>
+      <view class="settle-total-tip">已含配送费¥{{deliveryFee}}.00</view>
+    </view>
+    <view class="settle-btn" bindtap="onCheckout">去结算</view>
+  </view>
+
+  <!-- 首屏加载遮罩 -->
+  <view wx:if="{{pageLoading}}" class="page-loading">
+    <view class="page-loading-icon"></view>
+    <view class="page-loading-text">加载中...</view>
+  </view>
+</view>

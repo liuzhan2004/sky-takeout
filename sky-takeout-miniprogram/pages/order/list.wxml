@@ -1,0 +1,86 @@
+<!--
+  历史订单页（pages/order/list）
+  状态标签 + 订单卡片列表（分页加载）。
+-->
+<view class="order-page">
+  <!-- 状态标签 -->
+  <scroll-view class="tab-bar" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="value"
+      class="tab-item {{currentStatus === item.value ? 'tab-item-active' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="onTabChange"
+    >{{item.label}}</view>
+  </scroll-view>
+
+  <!-- 订单列表 -->
+  <scroll-view class="order-body" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <block wx:if="{{orderList.length > 0}}">
+      <view wx:for="{{orderList}}" wx:key="id" class="order-card" data-id="{{item.id}}" bindtap="onCardTap">
+        <!-- 状态行 -->
+        <view class="order-head">
+          <text class="order-time">{{item.orderTimeText}}</text>
+          <text class="order-status order-status-{{item.status}}">{{item.statusText}}</text>
+        </view>
+
+        <!-- 菜品摘要 -->
+        <view class="order-dishes">{{item.dishSummary}}</view>
+        <view wx:if="{{item.remark}}" class="order-remark">备注：{{item.remark}}</view>
+
+        <!-- 金额行 -->
+        <view class="order-amount-row">
+          <text class="order-amount-label">实付</text>
+          <text class="order-amount-symbol">¥</text>
+          <text class="order-amount-value">{{item.amountText}}</text>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="order-actions">
+          <view
+            wx:if="{{item.canCancel}}"
+            class="action-btn action-btn-plain"
+            data-index="{{index}}"
+            catchtap="onCancel"
+          >取消订单</view>
+          <view
+            wx:if="{{item.canRemind}}"
+            class="action-btn action-btn-plain"
+            data-index="{{index}}"
+            catchtap="onRemind"
+          >催单</view>
+          <view
+            wx:if="{{item.canPay}}"
+            class="action-btn action-btn-primary"
+            data-index="{{index}}"
+            catchtap="onPay"
+          >去支付</view>
+          <view
+            wx:if="{{item.canRepeat}}"
+            class="action-btn action-btn-primary"
+            data-index="{{index}}"
+            catchtap="onRepeat"
+          >再来一单</view>
+        </view>
+      </view>
+
+      <!-- 加载更多提示 -->
+      <view class="load-more">{{hasMore ? (loading ? '加载中...' : '上拉加载更多') : '— 没有更多订单了 —'}}</view>
+    </block>
+
+    <!-- 空列表 -->
+    <view wx:elif="{{!loading && !loadError}}" class="order-empty">
+      <view class="order-empty-icon">🧾</view>
+      <view class="order-empty-text">还没有订单</view>
+      <view class="order-empty-tip">去菜单里选点好吃的吧</view>
+      <view class="order-empty-btn" bindtap="onGoMenu">去点餐</view>
+    </view>
+
+    <!-- 加载失败 -->
+    <view wx:if="{{loadError}}" class="load-state">
+      <view class="load-state-title">订单加载失败</view>
+      <view class="load-state-tip">请检查网络后重试</view>
+      <view class="retry-btn" bindtap="reload">重新加载</view>
+    </view>
+  </scroll-view>
+</view>

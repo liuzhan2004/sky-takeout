@@ -1,0 +1,65 @@
+<!--
+  首页（pages/index/index）
+  店铺状态卡片 + 业务快捷入口。
+-->
+<view class="index-page">
+  <!-- 店铺状态卡片 -->
+  <view class="shop-card">
+    <view class="shop-card-inner">
+      <view class="shop-title">
+        <view class="shop-name">吃了么</view>
+        <view class="shop-badge {{shopStatus === 1 ? 'badge-open' : 'badge-closed'}}">
+          {{shopStatusText}}
+        </view>
+      </view>
+      <view class="shop-desc">{{shopStatusDesc}}</view>
+
+      <!-- 营业中：引导点餐 -->
+      <view wx:if="{{shopStatus === 1}}" class="shop-action" bindtap="onEntryTap" data-key="menu">
+        <text class="shop-action-text">开始点餐</text>
+        <text class="shop-action-arrow">›</text>
+      </view>
+
+      <!-- 已打烊：按钮置灰不可点 -->
+      <view wx:elif="{{shopStatus === 0}}" class="shop-action shop-action-disabled">
+        <text class="shop-action-text">店铺休息中</text>
+      </view>
+
+      <!-- 状态未知/加载失败 -->
+      <view wx:else class="shop-action shop-action-unknown" bindtap="onRetry">
+        <text class="shop-action-text">点击重新获取状态</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="entry-grid">
+    <view
+      wx:for="{{entries}}"
+      wx:key="key"
+      class="entry-item"
+      bindtap="onEntryTap"
+      data-key="{{item.key}}"
+    >
+      <view class="entry-icon">{{item.icon}}</view>
+      <view class="entry-name">{{item.name}}</view>
+      <view class="entry-desc">{{item.desc}}</view>
+    </view>
+  </view>
+
+  <!-- 服务承诺 -->
+  <view class="promise-card">
+    <view class="promise-title">— 服务承诺 —</view>
+    <view class="promise-list">
+      <view class="promise-item">新鲜食材</view>
+      <view class="promise-item">快速配送</view>
+      <view class="promise-item">安心打包</view>
+    </view>
+  </view>
+
+  <!-- 首屏加载遮罩 -->
+  <view wx:if="{{pageLoading}}" class="page-loading">
+    <view class="page-loading-icon"></view>
+    <view class="page-loading-text">加载中...</view>
+  </view>
+</view>

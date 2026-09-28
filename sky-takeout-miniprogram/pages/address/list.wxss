@@ -1,0 +1,201 @@
+/* ===== 页面基础 ===== */
+page {
+  height: 100%;
+  background-color: #f7f7f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.address-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: #f7f7f7;
+}
+
+.address-body {
+  flex: 1;
+  min-height: 0;
+  padding-top: 20rpx;
+}
+
+/* ===== 地址卡片 ===== */
+.address-card {
+  margin: 0 20rpx 20rpx;
+  padding: 28rpx 24rpx;
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
+}
+
+.address-line1 {
+  display: flex;
+  align-items: center;
+}
+
+.address-name {
+  color: #222222;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.address-default-tag {
+  margin-left: 14rpx;
+  padding: 2rpx 14rpx;
+  border: 2rpx solid #ff8c00;
+  border-radius: 8rpx;
+  color: #ff8c00;
+  font-size: 20rpx;
+}
+
+.address-phone {
+  margin-top: 8rpx;
+  color: #666666;
+  font-size: 26rpx;
+}
+
+.address-detail {
+  margin-top: 8rpx;
+  color: #555555;
+  font-size: 26rpx;
+  line-height: 38rpx;
+}
+
+/* ===== 地址操作 ===== */
+.address-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.address-action {
+  margin-left: 32rpx;
+  color: #666666;
+  font-size: 25rpx;
+  padding: 4rpx 8rpx;
+}
+
+.address-action-danger {
+  color: #e64340;
+}
+
+/* ===== 底部新增按钮 ===== */
+.add-bar {
+  flex-shrink: 0;
+  padding: 14rpx 20rpx calc(14rpx + env(safe-area-inset-bottom));
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 92rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, #ffb13d 0%, #ff8c00 100%);
+  color: #ffffff;
+  font-size: 30rpx;
+  font-weight: 600;
+  box-shadow: 0 6rpx 16rpx rgba(255, 140, 0, 0.28);
+}
+
+.list-bottom-space {
+  height: 20rpx;
+}
+
+/* ===== 空列表 ===== */
+.address-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 200rpx 40rpx 0;
+}
+
+.address-empty-icon {
+  font-size: 110rpx;
+  line-height: 120rpx;
+}
+
+.address-empty-text {
+  margin-top: 24rpx;
+  color: #333333;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.address-empty-tip {
+  margin-top: 12rpx;
+  color: #9a9a9a;
+  font-size: 24rpx;
+}
+
+/* ===== 加载失败 ===== */
+.load-state {
+  padding: 160rpx 40rpx;
+  text-align: center;
+}
+
+.load-state-title {
+  font-size: 30rpx;
+  color: #333333;
+}
+
+.load-state-tip {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.retry-btn {
+  display: inline-block;
+  margin-top: 40rpx;
+  padding: 14rpx 56rpx;
+  border-radius: 40rpx;
+  background-color: #ff8c00;
+  color: #ffffff;
+  font-size: 26rpx;
+}
+
+/* ===== 首屏加载 ===== */
+.page-loading {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7;
+}
+
+.page-loading-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border: 6rpx solid #ffe0bd;
+  border-top-color: #ff8c00;
+  border-radius: 50%;
+  animation: loading-rotate 0.8s linear infinite;
+}
+
+.page-loading-text {
+  margin-top: 24rpx;
+  color: #666666;
+  font-size: 26rpx;
+}
+
+@keyframes loading-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

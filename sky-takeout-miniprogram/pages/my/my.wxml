@@ -1,0 +1,50 @@
+<!--
+  我的页（pages/my/my）
+  用户信息卡片 + 功能入口 + 退出登录。
+-->
+<view class="my-page">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <block wx:if="{{loggedIn}}">
+      <view class="user-avatar">
+        <text class="user-avatar-text">客</text>
+      </view>
+      <view class="user-info">
+        <view class="user-name">尊敬的用户{{userId}}</view>
+        <view class="user-openid">openid：{{openidText}}</view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="user-avatar">
+        <text class="user-avatar-text">客</text>
+      </view>
+      <view class="user-info">
+        <view class="user-name">未登录</view>
+        <view class="user-openid">登录后即可点餐、下单</view>
+      </view>
+      <view class="user-login-btn" bindtap="onGoLogin">去登录</view>
+    </block>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="menu-card">
+    <view
+      wx:for="{{menus}}"
+      wx:key="key"
+      class="menu-item"
+      bindtap="onMenuTap"
+      data-key="{{item.key}}"
+    >
+      <view class="menu-icon">{{item.icon}}</view>
+      <view class="menu-name">{{item.name}}</view>
+      <view class="menu-arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view wx:if="{{loggedIn}}" class="logout-card" bindtap="onLogout">退出登录</view>
+
+  <!-- 版本信息 -->
+  <view class="version-tip">外卖用户端 v1.0.0</view>
+</view>

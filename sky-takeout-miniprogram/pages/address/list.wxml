@@ -1,0 +1,59 @@
+<!--
+  地址管理页（pages/address/list）
+  地址卡片列表 + 新增入口。
+-->
+<view class="address-page">
+  <!-- 地址列表 -->
+  <scroll-view class="address-body" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <block wx:if="{{addressList.length > 0}}">
+      <view wx:for="{{addressList}}" wx:key="id" class="address-card">
+        <view class="address-info">
+          <view class="address-line1">
+            <text class="address-name">{{item.consignee}}</text>
+            <text wx:if="{{item.isDefault}}" class="address-default-tag">默认</text>
+          </view>
+          <view class="address-phone">{{item.phone}}</view>
+          <view class="address-detail">{{item.detail}}</view>
+
+          <view class="address-actions">
+            <view
+              wx:if="{{!item.isDefault}}"
+              class="address-action"
+              data-id="{{item.id}}"
+              catchtap="onSetDefault"
+            >设为默认</view>
+            <view class="address-action" data-id="{{item.id}}" catchtap="onEdit">编辑</view>
+            <view class="address-action address-action-danger" data-id="{{item.id}}" catchtap="onDelete">删除</view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空列表 -->
+    <view wx:elif="{{!pageLoading && !loadError}}" class="address-empty">
+      <view class="address-empty-icon">📍</view>
+      <view class="address-empty-text">还没有收货地址</view>
+      <view class="address-empty-tip">添加地址后就可以下单了</view>
+    </view>
+
+    <!-- 加载失败 -->
+    <view wx:if="{{loadError}}" class="load-state">
+      <view class="load-state-title">地址加载失败</view>
+      <view class="load-state-tip">请检查网络后重试</view>
+      <view class="retry-btn" bindtap="onRetry">重新加载</view>
+    </view>
+
+    <view class="list-bottom-space"></view>
+  </scroll-view>
+
+  <!-- 底部新增按钮 -->
+  <view class="add-bar">
+    <view class="add-btn" bindtap="onAdd">＋ 新增收货地址</view>
+  </view>
+
+  <!-- 首屏加载遮罩 -->
+  <view wx:if="{{pageLoading}}" class="page-loading">
+    <view class="page-loading-icon"></view>
+    <view class="page-loading-text">加载中...</view>
+  </view>
+</view>

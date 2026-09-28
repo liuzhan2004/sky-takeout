@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "吃了么",
+  "backgroundColor": "#f7f7f7",
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": true,
+  "usingComponents": {}
+}

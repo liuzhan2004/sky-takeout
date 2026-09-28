@@ -1,0 +1,89 @@
+<!--
+  地址编辑页（pages/address/edit）
+  新增/编辑共用表单。
+-->
+<view class="edit-page">
+  <view class="edit-card">
+    <!-- 收货人 -->
+    <view class="form-row">
+      <text class="form-label">收货人</text>
+      <input
+        class="form-input"
+        placeholder="请填写收货人姓名"
+        placeholder-class="form-placeholder"
+        value="{{form.consignee}}"
+        bindinput="onConsigneeInput"
+      />
+    </view>
+
+    <!-- 手机号 -->
+    <view class="form-row">
+      <text class="form-label">手机号</text>
+      <input
+        class="form-input"
+        type="number"
+        maxlength="11"
+        placeholder="请填写11位手机号"
+        placeholder-class="form-placeholder"
+        value="{{form.phone}}"
+        bindinput="onPhoneInput"
+      />
+    </view>
+
+    <!-- 性别 -->
+    <view class="form-row">
+      <text class="form-label">性别</text>
+      <view class="form-options">
+        <view
+          class="option-chip {{form.sex === '1' ? 'option-chip-active' : ''}}"
+          data-value="1"
+          bindtap="onSexChange"
+        >先生</view>
+        <view
+          class="option-chip {{form.sex === '0' ? 'option-chip-active' : ''}}"
+          data-value="0"
+          bindtap="onSexChange"
+        >女士</view>
+      </view>
+    </view>
+
+    <!-- 详细地址 -->
+    <view class="form-row">
+      <text class="form-label">详细地址</text>
+      <input
+        class="form-input"
+        placeholder="如：xx小区x栋xxx（楼栋/门牌号）"
+        placeholder-class="form-placeholder"
+        value="{{form.detail}}"
+        bindinput="onDetailInput"
+      />
+    </view>
+
+    <!-- 标签 -->
+    <view class="form-row">
+      <text class="form-label">标签</text>
+      <view class="form-options">
+        <view
+          wx:for="{{labels}}"
+          wx:key="*this"
+          class="option-chip {{form.label === item ? 'option-chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="onLabelChange"
+        >{{item}}</view>
+      </view>
+    </view>
+
+    <!-- 设为默认 -->
+    <view class="form-row form-row-default">
+      <text class="form-label">设为默认地址</text>
+      <switch checked="{{setDefault}}" color="#ff8c00" bindchange="onDefaultChange" />
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-bar">
+    <view class="save-btn {{saving ? 'save-btn-disabled' : ''}}" bindtap="onSave">
+      {{saving ? '保存中...' : '保存'}}
+    </view>
+  </view>
+</view>

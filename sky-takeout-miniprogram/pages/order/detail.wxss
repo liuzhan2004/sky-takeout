@@ -1,0 +1,247 @@
+/* ===== 页面基础 ===== */
+page {
+  height: 100%;
+  background-color: #f7f7f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.detail-page {
+  min-height: 100vh;
+  padding: 0 0 40rpx;
+  box-sizing: border-box;
+  background-color: #f7f7f7;
+}
+
+/* ===== 状态区 ===== */
+.status-area {
+  padding: 36rpx 32rpx 30rpx;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.status-title {
+  color: #222222;
+  font-size: 40rpx;
+  font-weight: 600;
+}
+
+.status-desc {
+  margin-top: 10rpx;
+  color: #9a9a9a;
+  font-size: 26rpx;
+}
+
+/* ===== 卡片 ===== */
+.card {
+  margin: 20rpx 20rpx 0;
+  padding: 26rpx 24rpx;
+  background-color: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
+}
+
+.card-title {
+  margin-bottom: 20rpx;
+  color: #222222;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+/* ===== 订单信息行 ===== */
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 12rpx 0;
+}
+
+.info-label {
+  flex-shrink: 0;
+  width: 150rpx;
+  color: #9a9a9a;
+  font-size: 26rpx;
+  line-height: 40rpx;
+}
+
+.info-value {
+  flex: 1;
+  color: #222222;
+  font-size: 26rpx;
+  line-height: 40rpx;
+  word-break: break-all;
+}
+
+.addr-line {
+  color: #222222;
+}
+
+.addr-detail {
+  margin-top: 4rpx;
+  color: #666666;
+}
+
+/* ===== 复制订单号 ===== */
+.info-value-copy {
+  display: flex;
+  align-items: center;
+}
+
+.copy-number {
+  flex: 1;
+  color: #666666;
+}
+
+.copy-btn {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+  padding: 4rpx 18rpx;
+  color: #ff8c00;
+  font-size: 24rpx;
+  border: 1rpx solid #ff8c00;
+  border-radius: 999rpx;
+}
+
+/* ===== 菜品明细 ===== */
+.dish-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+}
+
+.dish-image {
+  flex-shrink: 0;
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 12rpx;
+  background-color: #f2f2f2;
+}
+
+.dish-info {
+  flex: 1;
+  min-width: 0;
+  margin-left: 20rpx;
+}
+
+.dish-name {
+  color: #222222;
+  font-size: 28rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dish-flavor {
+  margin-top: 6rpx;
+  color: #9a9a9a;
+  font-size: 24rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dish-right {
+  flex-shrink: 0;
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.dish-number {
+  color: #9a9a9a;
+  font-size: 24rpx;
+}
+
+.dish-subtotal {
+  margin-top: 6rpx;
+  color: #222222;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+/* ===== 费用明细 ===== */
+.fee-block {
+  margin-top: 10rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f2f2f2;
+}
+
+.fee-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8rpx 0;
+}
+
+.fee-label {
+  color: #9a9a9a;
+  font-size: 26rpx;
+}
+
+.fee-value {
+  color: #222222;
+  font-size: 26rpx;
+}
+
+.fee-row-total {
+  margin-top: 8rpx;
+}
+
+.fee-amount {
+  display: flex;
+  align-items: baseline;
+  color: #ff5000;
+}
+
+.fee-symbol {
+  font-size: 24rpx;
+}
+
+.fee-value-total {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+/* ===== 底部操作 ===== */
+.footer-bar {
+  margin: 36rpx 20rpx 0;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-btn {
+  min-width: 320rpx;
+  padding: 20rpx 0;
+  text-align: center;
+  color: #ffffff;
+  font-size: 30rpx;
+  background-color: #ff8c00;
+  border-radius: 999rpx;
+}
+
+/* ===== 加载与错误态 ===== */
+.load-state {
+  padding: 120rpx 0;
+  text-align: center;
+}
+
+.load-state-title {
+  color: #9a9a9a;
+  font-size: 30rpx;
+}
+
+.load-state-tip {
+  margin-top: 12rpx;
+  color: #bbbbbb;
+  font-size: 26rpx;
+}
+
+.retry-btn {
+  display: inline-block;
+  margin-top: 30rpx;
+  padding: 14rpx 60rpx;
+  color: #ffffff;
+  font-size: 28rpx;
+  background-color: #ff8c00;
+  border-radius: 999rpx;
+}

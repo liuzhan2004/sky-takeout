@@ -1,0 +1,26 @@
+<!--
+  登录页（pages/login/login）
+  品牌头部 + 微信一键登录按钮。
+-->
+<view class="login-page">
+  <!-- 品牌区 -->
+  <view class="login-brand">
+    <view class="brand-logo">
+      <image src="/assets/images/tabs/knife-fork.svg" mode="aspectFit" style="width: 48rpx; height: 48rpx;"></image>
+      <!-- <text class="brand-logo-text"></text> -->
+    </view>
+    <view class="brand-name">吃了么</view>
+    <view class="brand-slogan">新鲜现做 · 快速送达</view>
+  </view>
+
+  <!-- 登录按钮区 -->
+  <view class="login-actions">
+    <button
+      class="login-btn {{loading ? 'login-btn-loading' : ''}}"
+      disabled="{{loading}}"
+      bindtap="onLogin"
+    >{{loading ? '登录中...' : '微信一键登录'}}</button>
+
+    <view class="login-tip">登录后即可点餐、下单</view>
+  </view>
+</view>

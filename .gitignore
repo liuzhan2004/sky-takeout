@@ -1,10 +1,9 @@
+# 后端Maven
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
+# STS
 .apt_generated
 .classpath
 .factorypath
@@ -13,21 +12,48 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
+# IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# VS Code
 .vscode/
+
+# 前端
+frontend/node_modules/
+frontend/dist/
+frontend/.vscode/
+frontend/.DS_Store
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# ========== 微信小程序 专属忽略 ==========
+# 小程序开发者工具缓存、编译产物
+miniproject/.eslintrc.js
+miniproject/project.config.json.user
+miniproject/project.private.config.json
+miniproject/.vscode/
+miniproject/node_modules/
+miniproject/dist/
+miniproject/miniprogram_npm/
+miniproject/.cache/
+miniproject/app.js.LICENSE.txt
+
+# 小程序上传打包缓存
+miniproject/*.log
+miniproject/weapp.log
+
+# 系统文件
+.DS_Store
+Thumbs.db

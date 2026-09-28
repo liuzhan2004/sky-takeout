@@ -1,0 +1,225 @@
+<!--
+  点餐页（pages/menu/index）
+  左侧：分类导航；右侧：按分类分组的商品列表。
+  左右联动：点分类滚动右侧分组，右侧滑动自动高亮左侧分类。
+-->
+<view class="menu-page">
+  <!-- 店铺状态条 -->
+  <view class="shop-header">
+    <view class="shop-info">
+      <view class="shop-name">吃了么</view>
+      <view class="shop-slogan">新鲜现做 · 快速送达</view>
+    </view>
+    <view class="shop-status {{shopStatus === 1 ? 'shop-status-open' : 'shop-status-closed'}}">
+      {{shopStatusText}}
+    </view>
+  </view>
+
+  <!-- 主体：左侧分类 + 右侧商品 -->
+  <view class="menu-body">
+    <!-- 左侧分类 -->
+    <scroll-view
+      class="category-panel"
+      scroll-y="{{true}}"
+      enhanced="{{true}}"
+      show-scrollbar="{{false}}"
+      scroll-into-view="{{leftScrollIntoView}}"
+      scroll-with-animation="{{true}}"
+    >
+      <view
+        wx:for="{{categories}}"
+        wx:key="id"
+        id="cat-{{item.id}}"
+        class="category-item {{activeIndex === index ? 'category-item-active' : ''}}"
+        data-index="{{index}}"
+        bindtap="onCategoryTap"
+      >
+        <view class="category-name">{{item.name}}</view>
+      </view>
+      <!-- 底部留白，避免最后一个分类被购物车栏遮挡 -->
+      <view class="category-bottom-space"></view>
+    </scroll-view>
+
+    <!-- 右侧商品区 -->
+    <scroll-view
+      class="goods-panel"
+      scroll-y="{{true}}"
+      enhanced="{{true}}"
+      show-scrollbar="{{false}}"
+      scroll-into-view="{{scrollIntoView}}"
+      scroll-with-animation="{{true}}"
+      bindscroll="onGoodsScroll"
+    >
+      <block wx:if="{{!pageLoading && !loadError}}">
+        <view
+          wx:for="{{goodsGroups}}"
+          wx:key="categoryId"
+          wx:for-item="group"
+          class="goods-group"
+          id="group-{{group.categoryId}}"
+        >
+            <view class="group-head">
+              <text class="group-name">{{group.categoryName}}</text>
+              <text wx:if="{{group.type === 2}}" class="group-tag">套餐</text>
+            </view>
+
+            <view
+              wx:if="{{group.list.length > 0}}"
+              class="goods-list"
+            >
+              <view
+                wx:for="{{group.list}}"
+                wx:key="key"
+                wx:for-item="goods"
+                wx:for-index="goodsIndex"
+                class="goods-card"
+              >
+                <!-- 商品图 -->
+                <view class="goods-img-wrap">
+                  <image
+                    wx:if="{{goods.image}}"
+                    class="goods-img"
+                    src="{{goods.image}}"
+                    mode="aspectFill"
+                    lazy-load="{{true}}"
+                  />
+                  <view wx:else class="goods-img goods-img-empty"></view>
+                </view>
+
+                <!-- 商品信息 -->
+                <view class="goods-info">
+                  <view class="goods-name">{{goods.name}}</view>
+                  <view wx:if="{{goods.description}}" class="goods-desc">{{goods.description}}</view>
+
+                  <view class="goods-bottom">
+                    <view class="goods-price">
+                      <text class="price-symbol">¥</text>
+                      <text class="price-value">{{goods.priceText}}</text>
+                    </view>
+
+                    <!-- 已选数量 > 0 时展示完整步进器 -->
+                    <view wx:if="{{goods.count > 0}}" class="stepper">
+                      <view
+                        class="stepper-btn stepper-minus"
+                        data-key="{{goods.key}}"
+                        catchtap="onSubGoods"
+                      >−</view>
+                      <view class="stepper-num">{{goods.count}}</view>
+                      <view
+                        class="stepper-btn stepper-plus"
+                        data-key="{{goods.key}}"
+                        catchtap="onAddGoods"
+                      >＋</view>
+                    </view>
+
+                    <view
+                      wx:else
+                      class="add-btn"
+                      data-key="{{goods.key}}"
+                      catchtap="onAddGoods"
+                    >＋</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+
+            <view wx:else class="group-empty">该分类暂时没有在售商品</view>
+        </view>
+      </block>
+
+      <!-- 加载失败 -->
+      <view wx:if="{{loadError}}" class="load-state">
+        <view class="load-state-title">菜单加载失败</view>
+        <view class="load-state-tip">请检查网络后重试</view>
+        <view class="retry-btn" bindtap="onRetry">重新加载</view>
+      </view>
+
+      <!-- 底部留白，避免被购物车栏遮挡 -->
+      <view class="scroll-bottom-space"></view>
+    </scroll-view>
+  </view>
+
+  <!-- 购物车展开遮罩 -->
+  <view wx:if="{{cartExpanded}}" class="cart-mask" bindtap="onCartClose"></view>
+
+  <!-- 底部购物车坞：面板与购物车栏连成一体 -->
+  <view class="cart-dock">
+  <!-- 购物车展开面板 -->
+  <view wx:if="{{cartExpanded}}" class="cart-panel">
+    <view class="cart-panel-head">
+      <text class="cart-panel-title">购物车（共{{cartCount}}件商品）</text>
+      <view class="cart-panel-clear" catchtap="onClearCart">
+        <text class="cart-panel-clear-icon">🗑</text>
+        <text>清空购物车</text>
+      </view>
+    </view>
+
+    <scroll-view class="cart-panel-list" scroll-y="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+      <view wx:for="{{cartItems}}" wx:key="key" class="cart-panel-item">
+        <view class="cart-panel-img-wrap">
+          <image
+            wx:if="{{item.image}}"
+            class="cart-panel-img"
+            src="{{item.image}}"
+            mode="aspectFill"
+          />
+          <view wx:else class="cart-panel-img cart-panel-img-empty"></view>
+        </view>
+
+        <view class="cart-panel-info">
+          <view class="cart-panel-name">{{item.name}}</view>
+          <view wx:if="{{item.description}}" class="cart-panel-desc">规格：{{item.description}}</view>
+          <view class="cart-panel-bottom">
+            <view class="cart-panel-price">
+              <text class="price-symbol">¥</text>
+              <text class="cart-panel-price-value">{{item.priceText}}</text>
+              <text class="cart-panel-price-unit">/份</text>
+            </view>
+            <view class="stepper">
+              <view
+                class="stepper-btn stepper-minus"
+                data-key="{{item.key}}"
+                catchtap="onSubGoods"
+              >−</view>
+              <view class="stepper-num">{{item.count}}</view>
+              <view
+                class="stepper-btn stepper-plus"
+                data-key="{{item.key}}"
+                catchtap="onAddGoods"
+              >＋</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view
+    class="cart-inner {{cartCount > 0 ? 'cart-inner-active' : ''}} {{cartExpanded ? 'cart-inner-connected' : ''}}"
+  >
+      <view
+        class="cart-info"
+        bindtap="onCartToggle"
+      >
+        <view wx:if="{{cartCount > 0}}" class="cart-summary">
+          <view class="cart-selected">已选 <text class="cart-count">{{cartCount}}</text> 件</view>
+          <view class="cart-total">
+            <text class="cart-total-symbol">¥</text>{{totalPrice}}
+          </view>
+        </view>
+        <view wx:else class="cart-empty-text">购物车还是空的，去选点好吃的吧</view>
+      </view>
+
+      <view
+        class="checkout-btn {{cartCount > 0 ? '' : 'checkout-disabled'}}"
+        bindtap="onCheckout"
+      >{{cartCount > 0 ? '去结算' : '去逛逛'}}</view>
+  </view>
+  </view>
+
+  <!-- 首屏加载遮罩 -->
+  <view wx:if="{{pageLoading}}" class="page-loading">
+    <view class="page-loading-icon"></view>
+    <view class="page-loading-text">菜单加载中...</view>
+  </view>
+</view>
